@@ -1,6 +1,6 @@
 name: Semantic Pull Request
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, reopened, edited, synchronize]
 permissions:
   pull-requests: read
@@ -8,16 +8,14 @@ permissions:
 jobs:
   main:
     name: Validate PR Title
-    runs-on: ubuntu-latest
+    runs-on: ubuntu_latest
     steps:
-      - uses: amannn/action-semantic-pull-request@v5.5.3
+      - uses: amannn/action-semantic-pull-request@v5.5 # Pinned to minor version
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: |
-            The subject "{subject}" found in the pull request title "{title}"
-            didn't match the configured pattern. Please ensure that the subject
-            doesn't start with an uppercase character.
+            The subject "{subject}" found in the pull request title "{title}" should not start with a capital letter. This is to follow conventional commit style guidelines. Please use lowercase for the first letter of the subject.
           types: |
             fix
             feat
