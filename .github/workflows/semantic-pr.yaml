@@ -4,16 +4,15 @@ on:
     types: [opened, reopened, edited, synchronize]
 permissions:
   pull-requests: read
+  contents: read # Needed to fetch the .gitattributes file if present
 jobs:
   main:
     name: Validate PR Title
     runs-on: ubuntu-latest
     steps:
-      # https://github.com/amannn/action-semantic-pull-request/releases/tag/v5.5.3
-      - uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: amannn/action-semantic-pull-request@v5.5.3
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: |
             The subject "{subject}" found in the pull request title "{title}"
